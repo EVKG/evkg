@@ -5,4 +5,11 @@ In this work, inspired by the challenges faced by EV charging systems and recent
 and the electric vehicle adoptions at different spatial scales.
 ## Data Sources 
 Our graph is generated based on mainly four repositories: 
-
+* The EV registration records from the Atlas EV Hub
+* The electric power transmission network data across the U.S. from the Homeland Infrastructure Foundation Level Database (HIFLD)
+* The compatible charger types and connector types from the public repository of EVS pecifications
+* The road network from KnowWhereGraph
+## Ontology
+<p align="center">
+    <img src="" alt="framework" >
+</p>
