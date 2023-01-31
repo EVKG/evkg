@@ -13,3 +13,37 @@ Our graph is generated based on mainly four repositories:
 <p align="center">
     <img src="https://github.com/EVKG/evkg/blob/main/Ontology.pdf" alt="framework" >
 </p>
+
+## Competency Questions and Exemplary Queries
+* Q1
+```
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX kwg-ont: <http://stko-kwg.geog.ucsb.edu/lod/ontology/>
+PREFIX ev-ont: <http://stko-kwg.geog.ucsb.edu/lod/ev/ontology/>
+PREFIX evr: <http://stko-kwg.geog.ucsb.edu/lod/ev/resource/>
+select DISTINCT ?l ?r ?lm ?ev_n where { 
+    ?o rdfs:label ?l .
+    ?o a kwg-ont:ZipCodeArea.
+    ?state rdfs:label ?ls .
+    ?state a kwg-ont:AdministrativeRegion_2.
+    ?o kwg-ont:sfWithin ?state.
+    ?r a ev-ont:ElectricVehicleRegistrationCollection.
+    ?r ev-ont:hasAmount ?ev_n.
+    ?r ev-ont:hasSpatialScope ?o.
+    ?r ev-ont:hasProductInfo ?ev.
+    ?ev ev-ont:hasMatchableChargerType ?c.
+    ?ev ev-ont:hasMakeType ?make.
+    ?make rdfs:label ?lm.
+    ?cc ev-ont:hasChargerType ?c.
+    ?cc ev-ont:hasAmount ?n.
+    VALUES (?c) {(evr:chargertype.DCFastCharger)}
+    VALUES (?ls) {("New Jersey")}
+    VALUES (?lm) {("BMW")}
+	}
+```
+* Q2
+* Q3
+* 
+
+
+
