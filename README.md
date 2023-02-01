@@ -137,7 +137,8 @@ WHERE{
 ```
 SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
         WHERE{
-            {SELECT DISTINCT ?zipcode (SUM(?chargerNum) AS ?zipChargerNum)
+		### part 1 the EVSE number at zip code level
+            	{SELECT DISTINCT ?zipcode (SUM(?chargerNum) AS ?zipChargerNum)
                  WHERE{
                     ?zipcode a kwg-ont:ZipCodeArea.
                     ?state a kwg-ont:AdministrativeRegion_2.
@@ -150,6 +151,7 @@ SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
                     ?chargerCollection ev-ont:hasConnectorType evr:connectortype.J1772COMBO.
                     } GROUP BY ?zipcode
                 }
+		### part 2 the registration number at zip code level
                 {SELECT DISTINCT ?zipcode (SUM(?regNum) AS ?zipRegNum)
                  WHERE{
                        ?zipcode a kwg-ont:ZipCodeArea.
@@ -166,6 +168,42 @@ SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
                 }
 }
 ```
+* Q6
+```
+PREFIX kwg-ont: <http://stko-kwg.geog.ucsb.edu/lod/ontology/> 
+PREFIX ev-ont: <http://stko-kwg.geog.ucsb.edu/lod/ev/ontology/>
+prefix unit: <http://qudt.org/vocab/unit/> 
+PREFIX evr: <http://stko-kwg.geog.ucsb.edu/lod/ev/resource/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX geosparql: <http://www.ontotext.com/plugins/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
 
+** Condition 1: Average charging resource less than 0.1
+```
+SELECT ?zipcode ?transline ?ratio 
+WHERE{
+    {
+        FILTER(?ratio < 0.1)
+    }
+
+    {
+    ... Queries from Q5...
+    }
+}
+```
+** Condition 2: Electric vehicle registration more than 98
+SELECT ?zipcode ?transline 
+WHERE{
+    {
+        FILTER(?zipRegNum>98)
+    }
+
+    {
+    ... Queries from Q5 part 2...
+    }
+}
+```
 
 
