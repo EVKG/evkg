@@ -171,18 +171,7 @@ SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
 ```
 * Q6
 ```
-PREFIX kwg-ont: <http://stko-kwg.geog.ucsb.edu/lod/ontology/> 
-PREFIX ev-ont: <http://stko-kwg.geog.ucsb.edu/lod/ev/ontology/>
-prefix unit: <http://qudt.org/vocab/unit/> 
-PREFIX evr: <http://stko-kwg.geog.ucsb.edu/lod/ev/resource/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-PREFIX geosparql: <http://www.ontotext.com/plugins/geosparql#>
-PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
-
 ** Condition 1: Average charging resource less than 0.1
-```
 SELECT ?zipcode ?transline ?ratio 
 WHERE{
     {
@@ -193,6 +182,7 @@ WHERE{
     ... Queries from Q5...
     }
 }
+```
 ```
 ** Condition 2: Electric vehicle registration more than 98
 SELECT ?zipcode ?transline 
