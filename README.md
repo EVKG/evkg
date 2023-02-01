@@ -197,5 +197,11 @@ WHERE{
     }
 }
 ```
+# Code usage
+Codes in this project can be grouped into two catgeories: 1) codes to generate the RDF graph (code is in python 3)
 
+* To triplify each of the modules, please see the codes in ```./scripts```. 
+
+# License
+This repository, and associated codes, are distributed under the MIT License. See LICENSE for more information.
 
