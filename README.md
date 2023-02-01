@@ -16,8 +16,37 @@ Our graph is generated based on mainly four repositories:
 
 ## Competency Questions and Exemplary Queries
 * Q1
-To be added later...
+```
+select DISTINCT ?lev where { 
+	?ev a ev-ont:ElectricVehicleProduct.
+    	?ev ev-ont:hasMatchableConnectorType evr:connectortype.CHAdeMO.
+    	?ev rdfs:label ?lev.
+}
+```
 * Q2
+```
+select * where { 
+	?county a kwg-ont:AdministrativeRegion_3.
+    	?county rdfs:label "King".
+    	?zipcode a kwg-ont:ZipCodeArea.
+    	?zipcode kwg-ont:sfWithin ?county.
+    
+   	?road a kwg-ont:RoadSegment.
+    	?road kwg-ont:sfWithin ?county.
+    
+    	?transline a ev-ont:TransmissionLine.
+    	?transline kwg-ont:sfCrosses ?zipcode.
+    	?char_station a ev-ont:ChargingStation.
+    	?char_station kwg-ont:sfWithin ?zipcode.
+    
+    	?substation a ev-ont:Substation.
+    	?substation kwg-ont:sfWithin ?zipcode.
+    
+    	?powerplant a ev-ont:PowerPlant.
+    	?powerplant kwg-ont:sfWithin ?zipcode.
+}
+
+```
 * Q3
 ```
 SELECT Distinct ?co ?station ?sWKT
@@ -46,35 +75,66 @@ WHERE
     }
 }
 ```
-* Q4
+* Q4 a)
 ```
 select ?co_name ?year (SUM(?evtg_n) AS ?DC_EV_reg_n) where{
 select Distinct ?evtg ?evtg_n ?co_name ?year where { 
 	?zip a ev-ont:ZipCodeArea.
-    ?zip rdfs:label ?lz.
-    ?state a ev-ont:State.
-    ?state rdfs:label ?state_name.
-    ?state ev-ont:sfContains ?zip.
-    VALUES(?state_name) {("New Jersey")}
+    	?zip rdfs:label ?lz.
+    	?state a ev-ont:State.
+    	?state rdfs:label "New Jersey".
+    	?state ev-ont:sfContains ?zip.
 
 	?evtg a ev-ont:ElectricVehicleRegistrationCollection.
-    ?evtg ev-ont:hasAmount ?evtg_n.
-    ?evtg ev-ont:hasTemporalScope ?year.
-    ?evtg ev-ont:hasSpatialScope ?zip.
-    ?evtg ev-ont:hasProductInfo ?ev.
-    ?ev ev-ont:hasMatchableConnectorType ?co.
-    ?co rdfs:label ?co_name.
-    VALUES ?co_name{"TESLA" "CHAdeMO" "J1772COMBO"}
+    	?evtg ev-ont:hasAmount ?evtg_n.
+    	?evtg ev-ont:hasTemporalScope ?year.
+    	?evtg ev-ont:hasSpatialScope ?zip.
+    	?evtg ev-ont:hasProductInfo ?ev.
+    	?ev ev-ont:hasMatchableConnectorType ?co.
+   	?co rdfs:label ?co_name.
+    	VALUES ?co_name{"TESLA" "CHAdeMO" "J1772COMBO"}
 }}  Group By ?co_name ?year
 
 ```
+```
+select ?co_name ?year (SUM(?evtg_n) AS ?DC_EV_reg_n) where{
+select Distinct ?evtg ?evtg_n ?co_name ?year where { 
+	?zip a ev-ont:ZipCodeArea.
+    	?zip rdfs:label ?lz.
+    	?state a ev-ont:State.
+    	?state rdfs:label "New Jersey".
+    	?state ev-ont:sfContains ?zip.
+
+	?evtg a ev-ont:ElectricVehicleRegistrationCollection.
+    	?evtg ev-ont:hasAmount ?evtg_n.
+    	?evtg ev-ont:hasTemporalScope ?year.
+    	?evtg ev-ont:hasSpatialScope ?zip.
+    	?evtg ev-ont:hasProductInfo ?ev.
+    	?ev ev-ont:hasMatchableConnectorType ?co.
+    	?co rdfs:label ?co_name.
+    	VALUES ?co_name{"TESLA" "CHAdeMO" "J1772COMBO"}
+}}  Group By ?co_name ?year
+```
 * Q5 a)
 ```
+SELECT DISTINCT ?zipcode (SUM(?regNum) AS ?zipRegNum)
+WHERE{
+        ?zipcode a kwg-ont:ZipCodeArea.
+        ?state a kwg-ont:AdministrativeRegion_2.
+        ?state rdfs:label "New Jersey".
+        ?state kwg-ont:sfContains ?zipcode.
+        ?reggroup a ev-ont:ElectricVehicleRegistrationCollection.
+        ?reggroup ev-ont:hasSpatialScope ?zipcode.
+        ?reggroup ev-ont:hasTemporalScope "2021"^^xsd:gYear.
+        ?reggroup ev-ont:hasProductInfo ?ev. 
+        ?reggroup ev-ont:hasAmount ?regNum.
+        ?ev ev-ont:hasMatchableConnectorType evr:connectortype.J1772COMBO.
+	} GROUP BY ?zipcode
+}
 
 ```
 * Q5 b)
 ```
-
 SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
         WHERE{
             {SELECT DISTINCT ?zipcode (SUM(?chargerNum) AS ?zipChargerNum)
@@ -90,7 +150,6 @@ SELECT ?zipcpde ?zipChargerNum ?zipRegNum (?zipChargerNum/?zipRegNum AS ?ratio)
                     ?chargerCollection ev-ont:hasConnectorType evr:connectortype.J1772COMBO.
                     } GROUP BY ?zipcode
                 }
-
                 {SELECT DISTINCT ?zipcode (SUM(?regNum) AS ?zipRegNum)
                  WHERE{
                        ?zipcode a kwg-ont:ZipCodeArea.
