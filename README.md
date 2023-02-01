@@ -75,7 +75,7 @@ WHERE
     }
 }
 ```
-* Q4 a)
+* Q4 The temporal variation of the DCFC-EVSE number
 ```
 select ?co_name ?year (SUM(?evtg_n) AS ?DC_EV_reg_n) where{
 select Distinct ?evtg ?evtg_n ?co_name ?year where { 
@@ -96,6 +96,7 @@ select Distinct ?evtg ?evtg_n ?co_name ?year where {
 }}  Group By ?co_name ?year
 
 ```
+The temporal variation of the number of EVs with fast charging capability
 ```
 select ?co_name ?year (SUM(?evtg_n) AS ?DC_EV_reg_n) where{
 select Distinct ?evtg ?evtg_n ?co_name ?year where { 
