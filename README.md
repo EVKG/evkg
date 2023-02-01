@@ -36,6 +36,7 @@ select * where {
     
     	?transline a ev-ont:TransmissionLine.
     	?transline kwg-ont:sfCrosses ?zipcode.
+	
     	?char_station a ev-ont:ChargingStation.
     	?char_station kwg-ont:sfWithin ?zipcode.
     
