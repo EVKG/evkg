@@ -11,7 +11,7 @@ Our graph is generated based on mainly four repositories:
 * The road network from KnowWhereGraph
 ## Ontology
 <p align="center">
-    <img src="https://github.com/EVKG/evkg/blob/main/Ontology.pdf" alt="framework" >
+    <img src="https://github.com/EVKG/evkg/blob/main/ontology.png" alt="framework" >
 </p>
 
 ## Competency Questions and Exemplary Queries
